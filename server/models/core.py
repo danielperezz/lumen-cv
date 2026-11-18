@@ -2,7 +2,18 @@
 Core persistence models for Lumen CV profile, job, and generated CV data.
 """
 
-from sqlalchemy import CheckConstraint, Column, DateTime, ForeignKey, Index, Integer, String, Text, UniqueConstraint
+from sqlalchemy import (
+    CheckConstraint,
+    Column,
+    DateTime,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+    text,
+)
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import relationship
 
@@ -32,6 +43,7 @@ class Profile(BaseModel):
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     name = Column(Text, nullable=True)
     headline = Column(Text, nullable=True)
+    document = Column(JSONB, nullable=False, default=dict, server_default=text("'{}'::jsonb"))
 
     user = relationship("User", back_populates="profile")
     education = relationship("ProfileEducation", back_populates="profile", cascade="all, delete-orphan")
