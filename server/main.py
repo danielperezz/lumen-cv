@@ -1,6 +1,7 @@
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from server.api.profile import router as profile_router
 
 app = FastAPI(title="Lumen CV API")
 
@@ -26,3 +27,4 @@ def health_check() -> dict[str, str]:
 
 
 app.include_router(router)
+app.include_router(profile_router)
